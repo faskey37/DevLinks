@@ -218,7 +218,7 @@ export default function SignInPage() {
                 <input
                   {...signUpForm.register("displayName")}
                   className="w-full rounded-2xl border border-white/5 bg-white/[0.02] px-5 py-3.5 text-sm outline-none transition focus:border-blue-500/50 focus:bg-white/[0.05] focus:ring-4 focus:ring-blue-500/10"
-                  placeholder="John Doe"
+                  placeholder="username or full name"
                 />
               </div>
             )}
