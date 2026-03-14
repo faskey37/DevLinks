@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/context/AuthContext";
 import { Navbar } from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/Toaster";
-import "./globals.css";
 import { PageLoader } from "@/components/PageLoader";
+import { Loader } from "@/components/loader";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "DevLinks — Your Developer Link Hub",
   description:
     "Create a beautiful, shareable page with all your developer links. GitHub, Portfolio, LinkedIn and more — in one place.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
   openGraph: {
     title: "DevLinks",
     description: "Your developer link hub",
@@ -33,11 +39,13 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <AuthProvider>
             <PageLoader />
             <Navbar />
-            <main>{children}</main>
+            <Suspense fallback={<Loader text="Loading..." />}>
+              <main>{children}</main>
+            </Suspense>
             <Toaster />
           </AuthProvider>
         </ThemeProvider>
