@@ -7,7 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLinks } from "@/hooks/useLinks";
 import { LinkCard } from "@/components/LinkCard";
 import { AddLinkForm } from "@/components/AddLinkForm";
-import { Loader } from "@/components/Loader";
+import { Loader } from "@/components/loader";
 import {
   ExternalLink, PlusCircle,
   BarChart2, Link2, Copy, Check, AlertCircle, Sparkles, Layout,

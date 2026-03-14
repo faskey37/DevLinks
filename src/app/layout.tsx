@@ -4,6 +4,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Navbar } from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/Toaster";
 import "./globals.css";
+import { PageLoader } from "@/components/PageLoader";
 
 export const metadata: Metadata = {
   title: "DevLinks — Your Developer Link Hub",
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
+            <PageLoader />
             <Navbar />
             <main>{children}</main>
             <Toaster />
