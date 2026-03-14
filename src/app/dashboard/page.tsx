@@ -7,48 +7,20 @@ import { useAuth } from "@/context/AuthContext";
 import { useLinks } from "@/hooks/useLinks";
 import { LinkCard } from "@/components/LinkCard";
 import { AddLinkForm } from "@/components/AddLinkForm";
+import { Loader } from "@/components/loader";
 import {
   ExternalLink, PlusCircle,
   BarChart2, Link2, Copy, Check, AlertCircle, Sparkles, Layout,
 } from "lucide-react";
 import type { Link as LinkType } from "@/types";
 
-function DevLinksLoader() {
-  return (
-    <div style={{ minHeight: "100vh", background: "#080C14", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 24 }}>
-      <svg width="72" height="72" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-        <rect width="80" height="80" rx="20" fill="#0F172A"/>
-        <rect width="80" height="80" rx="20" fill="none" stroke="#4338CA" strokeWidth="1.5"/>
-        <path d="M16 16 L16 64 L32 64 Q54 64 54 40 Q54 16 32 16 Z" fill="none" stroke="#6366F1" strokeWidth="4.5" strokeLinejoin="round"/>
-        <circle cx="66" cy="26" r="6" fill="#818CF8" style={{ animation: "nodePulse 1.8s ease-in-out infinite 0s" }}/>
-        <circle cx="66" cy="40" r="6" fill="#6366F1" style={{ animation: "nodePulse 1.8s ease-in-out infinite 0.3s" }}/>
-        <circle cx="66" cy="54" r="6" fill="#4338CA" style={{ animation: "nodePulse 1.8s ease-in-out infinite 0.6s" }}/>
-      </svg>
-      <div style={{ width: 200, height: 2, background: "#1E293B", borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
-          height: "100%", borderRadius: 99,
-          background: "linear-gradient(90deg, #4338CA, #6366F1, #818CF8)",
-          animation: "loadProgress 2.4s ease-in-out infinite",
-        }}/>
-      </div>
-      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#475569", letterSpacing: "0.08em" }}>
-        Loading your dashboard...
-      </span>
-      <style>{`
-        @keyframes nodePulse { 0%,100%{ opacity:0.2; } 50%{ opacity:1; } }
-        @keyframes loadProgress { 0%{ width:0%; } 80%{ width:85%; } 100%{ width:100%; } }
-      `}</style>
-    </div>
-  );
-}
-
 export default function DashboardPage() {
   const router = useRouter();
   const { user, userProfile, loading: authLoading } = useAuth();
   const { links, loading: linksLoading, addLink, updateLink, deleteLink } = useLinks();
   const [showForm, setShowForm] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [origin, setOrigin] = useState("");
+  const [copied, setCopied]     = useState(false);
+  const [origin, setOrigin]     = useState("");
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -58,11 +30,11 @@ export default function DashboardPage() {
     if (!authLoading && !user) router.push("/auth/signin");
   }, [user, authLoading, router]);
 
-  if (authLoading || linksLoading) return <DevLinksLoader />;
+  if (authLoading || linksLoading) return <Loader text="Loading your dashboard..." />;
   if (!user || !userProfile) return null;
 
   const totalClicks = links.reduce((sum, l) => sum + (l.clicks || 0), 0);
-  const profileUrl = origin ? `${origin}/${userProfile.username}` : `/${userProfile.username}`;
+  const profileUrl  = origin ? `${origin}/${userProfile.username}` : `/${userProfile.username}`;
 
   function handleCopyLink() {
     navigator.clipboard.writeText(profileUrl);
@@ -72,7 +44,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#020408] text-white selection:bg-blue-500/30">
-      {/* ── AMBIENT BACKGROUND ── */}
+      {/* Ambient background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-blue-500/5 blur-[120px]" />
         <div className="absolute bottom-[10%] right-[0%] w-[30vw] h-[30vw] bg-purple-500/5 blur-[100px]" />
@@ -144,7 +116,6 @@ export default function DashboardPage() {
             <p className="text-3xl font-black tracking-tighter">{totalClicks.toLocaleString()}</p>
             <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mt-1">Total Audience Clicks</p>
           </div>
-
           <div className="group rounded-3xl border border-white/5 bg-white/[0.03] p-6 transition-all hover:bg-white/[0.05] hover:border-white/10">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-500/10 text-purple-500 transition-transform group-hover:scale-110">
               <Link2 size={20} />
@@ -158,10 +129,7 @@ export default function DashboardPage() {
         {showForm ? (
           <div className="mb-8 rounded-3xl border border-white/10 bg-white/[0.02] p-6 shadow-2xl">
             <AddLinkForm
-              onAdd={async (data) => {
-                await addLink(data);
-                setShowForm(false);
-              }}
+              onAdd={async (data) => { await addLink(data); setShowForm(false); }}
               onCancel={() => setShowForm(false)}
             />
           </div>

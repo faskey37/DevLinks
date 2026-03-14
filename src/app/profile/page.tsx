@@ -10,6 +10,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { db, storage, auth } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
+import { Loader } from "@/components/Loader";
 import { Loader2, ExternalLink, CheckCircle2, Camera, User } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -53,13 +54,7 @@ export default function ProfilePage() {
     if (!authLoading && !user) router.push("/auth/signin");
   }, [user, authLoading, router]);
 
-  if (authLoading || !userProfile) {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-      </div>
-    );
-  }
+  if (authLoading || !userProfile) return <Loader text="Loading profile..." />;
 
   const watchedUsername = watch("username", userProfile.username);
 
