@@ -13,7 +13,7 @@ import {
 import { db } from "@/lib/firebase";
 import type { UserProfile, Link as LinkType } from "@/types";
 import { PublicLinkButton } from "@/components/PublicLinkButton";
-import { Loader } from "@/components/Loader";
+import { Loader } from "@/components/loader";
 import { Loader2 } from "lucide-react";
 
 export default function PublicProfilePage() {

@@ -10,7 +10,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { db, storage, auth } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
-import { Loader } from "@/components/Loader";
+import { Loader } from "@/components/loader";
 import { Loader2, ExternalLink, CheckCircle2, Camera, User } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
