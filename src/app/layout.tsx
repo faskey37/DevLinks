@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/Toaster";
 import { PageLoader } from "@/components/PageLoader";
 import { Loader } from "@/components/loader";
+// @ts-ignore: CSS imports require type declarations in TypeScript
 import "./globals.css";
 
 export const metadata: Metadata = {
